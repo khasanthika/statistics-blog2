@@ -1,6 +1,4 @@
 ---
 layout: home
-title: "Home"
+title: Home
 ---
-
-Welcome to my blog!
