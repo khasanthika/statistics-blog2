@@ -3,3 +3,4 @@ description: "A blog about statistical concepts and applications"
 author: "Kalani Hasanthika"
 url: "https://khasanthika.github.io"
 theme: tale
+github: true
