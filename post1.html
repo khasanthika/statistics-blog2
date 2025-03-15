@@ -226,7 +226,7 @@ print(az.summary(trace, round_to=2))</code></pre>
       <li>Posterior summaries provide means, standard deviations, and credible intervals for the model parameters.</li>
     </ul>
 
-    <h2>4. Extending the Model and Further Applications</h2>
+    <h3>4. Extending the Model and Further Applications</h3>
     
     <h3>4.1 Hierarchical Modeling</h3>
     <p>For real-world social media data, posts are often nested within users. A hierarchical model allows for user-specific random effects:</p>
@@ -252,11 +252,21 @@ print(az.summary(trace, round_to=2))</code></pre>
     <h3>4.4 Other Application Areas</h3>
     <ul>
       <li><strong>Event Prediction:</strong> Bayesian models such as those used in “Pachinko Prediction” forecast events (e.g., protests or social unrest) by aggregating social media signals and updating predictions dynamically.</li>
-      <li><strong>Social Influence and Opinion Dynamics:</strong> By treating each individual
+      <li><strong>Social Influence and Opinion Dynamics:</strong> By treating each individual’s opinion as a probability distribution that is updated via Bayes’ rule, researchers model how opinions spread in social networks and how consensus emerges or misinformation can be mitigated.</li>
+      <li><strong>Macroeconomic Forecasting:</strong> Bayesian vector autoregression (BVAR) models employ shrinkage priors to handle the high number of parameters typical in macroeconomic datasets, improving forecast stability and accuracy.</li>
+      <li><strong>Clinical Trials and Experimental Design:</strong> Bayesian optimal design techniques guide adaptive clinical trials, ensuring efficient resource allocation and enhanced patient safety by maximizing information gain.</li>
+    </ul>
     <h2>Conclusion</h2>
     <p>Bayesian models provide a flexible and robust framework for analyzing social media data and beyond. This article introduced the fundamental concepts behind Bayesian inference, derived the posterior distribution using Bayes’ theorem, and illustrated a practical example with Bayesian logistic regression for sentiment analysis.</p>
     <p>By combining prior knowledge with new data, Bayesian inference not only delivers point estimates but also a full characterization of uncertainty, making it an essential tool for modern data analytics in rapidly changing environments.</p>
-<div style="display: flex; justify-content: space-between; margin-top: 20px;">
+    
+    <h2>References / Further Reading</h2>
+    <ul>
+      <li>Gelman, A., et al. <em>Bayesian Data Analysis.</em> CRC Press.</li>
+      <li>McElreath, R. <em>Statistical Rethinking.</em> CRC Press.</li>
+      <li>Carpenter, B. et al. <em>Stan: A Probabilistic Programming Language.</em> Journal of Statistical Software.</li>
+      <li>PyMC Documentation: <a href="https://www.pymc.io/" target="_blank">https://www.pymc.io/</a></li>
+    </ul><div style="display: flex; justify-content: space-between; margin-top: 20px;">
       <a href="index.html">&larr; Back to Home</a>
       <a href="posts.html">Back to Posts &rarr;</a>
     </div>
