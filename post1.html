@@ -89,11 +89,70 @@
   </header>
   <div class="container">
     <h2>Understanding Bayesian Inference & Applications in Social Media Analytics</h2>
-    <p>Bayesian models provide a flexible and robust framework for analyzing social media data and beyond. This article introduces the fundamental concepts behind Bayesian inference, derives the posterior distribution using Bayes’ theorem, and illustrates a practical example with Bayesian logistic regression for sentiment analysis.</p>
-    <p>Bayes' theorem is given by:</p>
-    <p>\[ P(\theta | D) = \frac{P(D | \theta) P(\theta)}{P(D)} \]</p>
-    <p>We also discuss extensions—such as hierarchical modeling, multiple predictors, and dynamic updating—and highlight further applications in event prediction, social influence modeling, macroeconomic forecasting, and clinical trial design.</p>
-    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+    <p>Bayesian inference is a statistical framework that updates beliefs about uncertain quantities as new data become available. It is based on <strong>Bayes’ theorem</strong>, formulated by the Reverend <strong>Thomas Bayes</strong> in the 18th century and later formalized by <strong>Pierre-Simon Laplace</strong>. Unlike frequentist methods, which rely on fixed parameters and long-run frequencies, Bayesian inference treats parameters as probability distributions, allowing for a natural way to incorporate prior knowledge and quantify uncertainty.</p>
+    <p>Despite its early development, Bayesian methods remained computationally challenging until the advent of <strong>Markov Chain Monte Carlo (MCMC)</strong> techniques in the 20th century, which made complex Bayesian models practical. Today, Bayesian inference is widely applied across fields such as machine learning, economics, medicine, and social sciences, offering a powerful framework for decision-making under uncertainty.</p>
+    
+    <h2>Introduction to Bayesian Models</h2>
+    <p>Bayesian models form a cornerstone of modern statistical inference by allowing us to combine prior knowledge with observed data to make probabilistic statements about unknown parameters. In this framework, every unknown quantity is treated as a random variable. We start with a <strong>prior distribution</strong> \(p(\theta)\) that encodes our beliefs about the parameter \(\theta\) before seeing any data. Next, we incorporate the <strong>likelihood</strong> \(p(D \mid \theta)\), which describes how likely the observed data \(D\) is given \(\theta\). By applying <strong>Bayes’ theorem</strong>, we update our beliefs, resulting in the <strong>posterior distribution</strong>:</p>
+    <p>\[
+    p(\theta \mid D) = \frac{p(D \mid \theta) \, p(\theta)}{p(D)} \quad \text{where} \quad p(D) = \int p(D \mid \theta) \, p(\theta) \, d\theta.
+    \]</p>
+    <p>This posterior distribution provides a complete summary of our updated beliefs, capturing not just point estimates but also the uncertainty about \(\theta\). The beauty of the Bayesian approach is that it naturally supports sequential learning—allowing us to update our beliefs as new data arrives—and offers a principled way to quantify uncertainty in predictions.</p>
+    
+    <h2>Mathematical Foundations of Bayesian Inference</h2>
+    <h3>Prior, Likelihood, and Posterior</h3>
+    <ul>
+        <li><strong>Prior \(p(\theta)\):</strong> Represents our beliefs about the unknown parameter \(\theta\) before observing any data.</li>
+        <li><strong>Likelihood \(p(D \mid \theta)\):</strong> Describes the probability of the observed data \(D\) given \(\theta\).</li>
+        <li><strong>Posterior \(p(\theta \mid D)\):</strong> The updated belief about \(\theta\) after observing data, obtained by applying Bayes’ theorem:</li>
+    </ul>
+    <p>\[
+    p(\theta \mid D) = \frac{p(D \mid \theta) \, p(\theta)}{p(D)}.
+    \]</p>
+    
+    <h2>Applications in Social Media Analytics</h2>
+    <p>Social media platforms generate vast amounts of unstructured data every day—from tweets and Facebook posts to forum discussions and product reviews. Analyzing such data provides insights into public opinion, emerging events, and patterns of social influence. Bayesian methods offer a natural framework to tackle these challenges by combining prior knowledge with incoming data and quantifying uncertainty in predictions.</p>
+    
+    <h3>Bayesian Logistic Regression for Sentiment Analysis</h3>
+    <p>For sentiment analysis, we aim to classify text (e.g., tweets) as expressing positive (\(y=1\)) or negative (\(y=0\)) sentiment. The logistic regression model is:</p>
+    <p>\[
+    \text{logit}(P(y=1 \mid x, \theta)) = \alpha + \beta \, x,
+    \]</p>
+    <p>where \(x\) is a predictor (such as a sentiment score), \(\alpha\) is the intercept, and \(\beta\) is the slope.</p>
+    
+    <h3>Python Example Using PyMC3</h3>
+    <pre><code>
+import numpy as np
+import pymc3 as pm
+import matplotlib.pyplot as plt
+import arviz as az
+
+# Simulate synthetic data
+N = 100  # number of social media posts
+x = np.random.normal(0, 1, size=N)  # feature (e.g., sentiment score)
+true_intercept = -1.0
+true_slope = 2.5
+logit_p = true_intercept + true_slope * x
+p_true = 1 / (1 + np.exp(-logit_p))
+y = np.random.binomial(1, p_true, size=N)
+
+# Bayesian logistic regression model using PyMC3
+with pm.Model() as model:
+    intercept = pm.Normal('intercept', mu=0, sigma=10)
+    slope = pm.Normal('slope', mu=0, sigma=10)
+    p = pm.math.sigmoid(intercept + slope * x)
+    likelihood = pm.Bernoulli('y', p=p, observed=y)
+    trace = pm.sample(2000, tune=1000, target_accept=0.95, return_inferencedata=True)
+
+# Plot posterior distributions
+az.plot_trace(trace)
+plt.show()
+    </code></pre>
+    
+    <h2>Conclusion</h2>
+    <p>Bayesian models provide a flexible and robust framework for analyzing social media data and beyond. This article introduced the fundamental concepts behind Bayesian inference, derived the posterior distribution using Bayes’ theorem, and illustrated a practical example with Bayesian logistic regression for sentiment analysis.</p>
+    <p>By combining prior knowledge with new data, Bayesian inference not only delivers point estimates but also a full characterization of uncertainty, making it an essential tool for modern data analytics in rapidly changing environments.</p>
+<div style="display: flex; justify-content: space-between; margin-top: 20px;">
       <a href="index.html">&larr; Back to Home</a>
       <a href="posts.html">Back to Posts &rarr;</a>
     </div>
