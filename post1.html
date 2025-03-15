@@ -105,8 +105,314 @@ challenging until the advent of <strong>Markov Chain Monte Carlo
 Bayesian models practical. Today, Bayesian inference is widely applied
 across fields such as machine learning, economics, medicine, and social
 sciences, offering a powerful framework for decision-making under
-uncertainty.
-    </p>
+uncertainty. </p>
+<p>This article will introduce <strong>Bayesian models</strong>,
+explaining their development based on Bayes’ theorem. We will then
+establish the <strong>mathematical foundation</strong> by deriving the
+posterior distribution from prior and likelihood functions. Next, we
+will explore a real-world example where a <strong>Bayesian logistic
+regression model</strong> is applied to social media sentiment analysis,
+providing a step-by-step <strong>Python implementation</strong> using
+PyMC3. Additionally, we will introduce extensions such as
+<strong>hierarchical modeling</strong>, <strong>multiple
+predictors</strong>, and <strong>dynamic updating</strong> to enhance
+real-world applicability. Finally, we will discuss <strong>broader
+applications</strong> of Bayesian methods, including event prediction,
+opinion dynamics, macroeconomic forecasting, and clinical trials,
+demonstrating their versatility in data-driven decision-making.</p>
+<hr />
+<div id="introduction-to-bayesian-models" class="section level1">
+<h1>Introduction to Bayesian Models</h1>
+<p>Bayesian models form a cornerstone of modern statistical inference by
+allowing us to combine prior knowledge with observed data to make
+probabilistic statements about unknown parameters. In this framework,
+every unknown quantity is treated as a random variable. We start with a
+<strong>prior distribution</strong> <span class="math inline">\(p(\theta)\)</span> that encodes our beliefs about
+the parameter <span class="math inline">\(\theta\)</span> before seeing
+any data. Next, we incorporate the <strong>likelihood</strong> <span class="math inline">\(p(D \mid \theta)\)</span>, which describes how
+likely the observed data <span class="math inline">\(D\)</span> is given
+<span class="math inline">\(\theta\)</span>. By applying <strong>Bayes’
+theorem</strong>, we update our beliefs, resulting in the
+<strong>posterior distribution</strong>:</p>
+<p><span class="math display">\[
+p(\theta \mid D) = \frac{p(D \mid \theta) \, p(\theta)}{p(D)} \quad
+\text{where} \quad p(D) = \int p(D \mid \theta) \, p(\theta) \, d\theta.
+\]</span></p>
+<p>This posterior distribution provides a complete summary of our
+updated beliefs, capturing not just point estimates but also the
+uncertainty about <span class="math inline">\(\theta\)</span>. The
+beauty of the Bayesian approach is that it naturally supports sequential
+learning—allowing us to update our beliefs as new data arrives—and
+offers a principled way to quantify uncertainty in predictions.</p>
+<hr />
+<div id="mathematical-foundations-of-bayesian-inference" class="section level2">
+<h2>1. Mathematical Foundations of Bayesian Inference</h2>
+<div id="prior-likelihood-and-posterior" class="section level3">
+<h3>1.1 Prior, Likelihood, and Posterior</h3>
+<ul>
+<li><strong>Prior <span class="math inline">\(p(\theta)\)</span>:</strong> Represents our
+beliefs about the unknown parameter <span class="math inline">\(\theta\)</span> before observing any data.</li>
+<li><strong>Likelihood <span class="math inline">\(p(D \mid
+\theta)\)</span>:</strong> Describes the probability of the observed
+data <span class="math inline">\(D\)</span> given <span class="math inline">\(\theta\)</span>.</li>
+<li><strong>Posterior <span class="math inline">\(p(\theta \mid
+D)\)</span>:</strong> The updated belief about <span class="math inline">\(\theta\)</span> after observing data, obtained by
+applying Bayes’ theorem:</li>
+</ul>
+<p><span class="math display">\[
+p(\theta \mid D) \;=\; \frac{p(D \mid \theta) \, p(\theta)}{p(D)}.
+\]</span></p>
+</div>
+<div id="derivation-of-the-posterior-distribution" class="section level3">
+<h3>1.2 Derivation of the Posterior Distribution</h3>
+<p>Starting with the joint probability of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(D\)</span>:</p>
+<p><span class="math display">\[
+p(\theta, D) \;=\; p(\theta) \, p(D \mid \theta) \quad \text{and} \quad
+p(\theta, D) \;=\; p(D) \, p(\theta \mid D),
+\]</span></p>
+<p>we equate the two and solve for the posterior:</p>
+<p><span class="math display">\[
+p(\theta \mid D) \;=\; \frac{p(\theta, D)}{p(D)} \;=\; \frac{p(\theta)
+\, p(D \mid \theta)}{p(D)}.
+\]</span></p>
+<p>The marginal likelihood <span class="math inline">\(p(D)\)</span> is
+computed by integrating out <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
+p(D) \;=\; \int p(D \mid \theta) \, p(\theta) \, d\theta.
+\]</span></p>
+<p>Thus, the posterior distribution becomes:</p>
+<p><span class="math display">\[
+p(\theta \mid D) \;=\; \frac{p(D \mid \theta) \, p(\theta)}{\int p(D
+\mid \theta) \, p(\theta) \, d\theta}.
+\]</span></p>
+<p>This relationship is the basis for all Bayesian inference,
+encapsulating how we update our beliefs in light of new evidence.</p>
+<hr />
+</div>
+</div>
+</div>
+<div id="applications-in-social-media-analytics-extending-sentiment-analysis-and-beyond" class="section level1">
+<h1>Applications in Social Media Analytics: Extending Sentiment Analysis
+and Beyond</h1>
+<p>Social media platforms generate vast amounts of unstructured data
+every day—from tweets and Facebook posts to forum discussions and
+product reviews. Analyzing such data provides insights into public
+opinion, emerging events, and patterns of social influence. Bayesian
+methods offer a natural framework to tackle these challenges by
+combining prior knowledge with incoming data and quantifying uncertainty
+in predictions. Next, we describe a case study on Bayesian sentiment
+analysis, detail the underlying mathematical foundation including the
+derivation of the posterior distribution, explain the associated Python
+code, and discuss extensions and further examples across different
+domains.</p>
+<hr />
+<div id="bayesian-logistic-regression-for-sentiment-analysis" class="section level2">
+<h2>2. Bayesian Logistic Regression for Sentiment Analysis</h2>
+<div id="model-specification" class="section level3">
+<h3>2.1 Model Specification</h3>
+<p>For sentiment analysis, we aim to classify text (e.g., tweets) as
+expressing positive (<span class="math inline">\(y=1\)</span>) or
+negative (<span class="math inline">\(y=0\)</span>) sentiment. The
+logistic regression model is:</p>
+<p><span class="math display">\[
+\text{logit}(P(y=1 \mid x, \theta)) \;=\; \alpha + \beta \, x,
+\]</span></p>
+<p>with: - <span class="math inline">\(x\)</span>: A predictor (such as
+a sentiment score), - <span class="math inline">\(\alpha\)</span>:
+Intercept, - <span class="math inline">\(\beta\)</span>: Slope, - <span class="math inline">\(\theta = \{\alpha, \beta\}\)</span>.</p>
+</div>
+<div id="priors-and-likelihood" class="section level3">
+<h3>2.2 Priors and Likelihood</h3>
+<p>We assume weakly informative Normal priors: <span class="math display">\[
+\alpha \sim \mathcal{N}(0, 10^2), \quad \beta \sim \mathcal{N}(0, 10^2).
+\]</span></p>
+<p>The likelihood for an individual observation <span class="math inline">\((x_i, y_i)\)</span> is:</p>
+<p><span class="math display">\[
+p(y_i \mid x_i, \alpha, \beta) \;=\; \sigma(\alpha + \beta x_i)^{\,y_i}
+\, [1 - \sigma(\alpha + \beta x_i)]^{\,1-y_i},
+\]</span> with <span class="math inline">\(\sigma(z)=\frac{1}{1+e^{-z}}\)</span>.</p>
+<p>For <span class="math inline">\(N\)</span> independent observations,
+the overall likelihood is the product over all data points. Thus, the
+posterior is:</p>
+<p><span class="math display">\[
+p(\alpha, \beta \mid D) \;\propto\; \left[\prod_{i=1}^N p(y_i \mid x_i,
+\alpha, \beta)\right] \, p(\alpha) \, p(\beta).
+\]</span></p>
+<p>Since this integral is generally intractable, we use MCMC methods to
+approximate it.</p>
+<hr />
+</div>
+</div>
+<div id="python-example-using-pymc3" class="section level2">
+<h2>3. Python Example Using PyMC3</h2>
+<p>Below is the complete Python code for our Bayesian logistic
+regression model for sentiment analysis:</p>
+<pre class="python"><code>import numpy as np
+import pymc3 as pm
+import matplotlib.pyplot as plt
+import arviz as az
+
+# 1. Set seed for reproducibility
+np.random.seed(42)
+
+# 2. Simulate synthetic data
+N = 100  # number of social media posts
+x = np.random.normal(0, 1, size=N)  # a feature (e.g., sentiment score)
+
+# True model parameters (for simulation)
+true_intercept = -1.0
+true_slope = 2.5
+logit_p = true_intercept + true_slope * x
+p_true = 1 / (1 + np.exp(-logit_p))
+y = np.random.binomial(1, p_true, size=N)  # binary sentiment outcome
+
+# 3. Build Bayesian logistic regression model using PyMC3
+with pm.Model() as model:
+    # Priors for the intercept and slope
+    intercept = pm.Normal(&#39;intercept&#39;, mu=0, sigma=10)
+    slope = pm.Normal(&#39;slope&#39;, mu=0, sigma=10)
+    
+    # Logistic model likelihood
+    p = pm.math.sigmoid(intercept + slope * x)
+    likelihood = pm.Bernoulli(&#39;y&#39;, p=p, observed=y)
+    
+    # 4. Sample from the posterior
+    trace = pm.sample(2000, tune=1000, target_accept=0.95, return_inferencedata=True)
+
+# 5. Plot the posterior distributions of the parameters
+az.plot_trace(trace)
+plt.tight_layout()
+plt.show()
+
+# 6. Summary statistics of the posterior
+print(az.summary(trace, round_to=2))</code></pre>
+<div id="detailed-explanation" class="section level3">
+<h3>Detailed Explanation:</h3>
+<ol style="list-style-type: decimal">
+<li><strong>Imports:</strong>
+<ul>
+<li><code>numpy</code> for numerical operations.<br />
+</li>
+<li><code>pymc3</code> for specifying and sampling from the Bayesian
+model.<br />
+</li>
+<li><code>matplotlib</code> and <code>arviz</code> for visualization and
+diagnostics.</li>
+</ul></li>
+<li><strong>Data Simulation:</strong>
+<ul>
+<li>We generate <span class="math inline">\(N=100\)</span> synthetic
+data points.<br />
+</li>
+<li>Predictor <span class="math inline">\(x\)</span> is drawn from a
+standard normal distribution.<br />
+</li>
+<li>We calculate the true probability <span class="math inline">\(p_{\text{true}}\)</span> using the logistic
+function with a true intercept of <span class="math inline">\(-1.0\)</span> and slope of <span class="math inline">\(2.5\)</span>.<br />
+</li>
+<li>The binary outcome <span class="math inline">\(y\)</span> is then
+generated from a binomial distribution.</li>
+</ul></li>
+<li><strong>Model Specification:</strong>
+<ul>
+<li>Within a PyMC3 model context, we define Normal priors for the
+intercept and slope.<br />
+</li>
+<li>The linear predictor is transformed to a probability using the
+sigmoid function.<br />
+</li>
+<li>The likelihood is defined using a Bernoulli distribution.</li>
+</ul></li>
+<li><strong>Sampling:</strong>
+<ul>
+<li>MCMC sampling (using NUTS) is performed to approximate the posterior
+distribution.<br />
+</li>
+<li>Tuning and a high target acceptance rate help ensure
+convergence.</li>
+</ul></li>
+<li><strong>Diagnostics:</strong>
+<ul>
+<li>Trace plots and histograms of the posterior samples are generated to
+visually assess convergence and distribution shapes.</li>
+</ul></li>
+<li><strong>Summary:</strong>
+<ul>
+<li>Posterior summaries provide means, standard deviations, and credible
+intervals for the model parameters.</li>
+</ul></li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="extending-the-model-and-further-applications" class="section level2">
+<h2>4. Extending the Model and Further Applications</h2>
+<div id="hierarchical-modeling" class="section level3">
+<h3>4.1 Hierarchical Modeling</h3>
+<p>For real-world social media data, posts are often nested within
+users. A hierarchical model allows for user-specific random effects:</p>
+<p><span class="math display">\[
+\text{logit}(P(y_{ij}=1)) = \alpha_j + \beta \, x_{ij}, \quad \alpha_j
+\sim \mathcal{N}(\mu_\alpha, \sigma_\alpha^2).
+\]</span></p>
+<p>This extension captures user-level differences in sentiment,
+“borrowing strength” across users to produce more robust estimates.</p>
+</div>
+<div id="multiple-textual-features" class="section level3">
+<h3>4.2 Multiple Textual Features</h3>
+<p>In practice, you might extract multiple predictors from text using
+methods such as TF-IDF, word embeddings, or topic modeling. A
+multivariate Bayesian logistic regression:</p>
+<p><span class="math display">\[
+\text{logit}(P(y_i=1)) = \alpha + \beta_1 x_{i1} + \beta_2 x_{i2} +
+\cdots + \beta_k x_{ik},
+\]</span></p>
+<p>can be used alongside regularizing priors (e.g., Laplace or
+Horseshoe) to handle high-dimensionality and select important
+features.</p>
+</div>
+<div id="dynamic-sequential-updating" class="section level3">
+<h3>4.3 Dynamic (Sequential) Updating</h3>
+<p>Social media data stream in continuously. A dynamic Bayesian model
+can update its posterior distribution over time as new data arrive. One
+common approach is to use the posterior from the previous time window as
+the prior for the new data, enabling real-time model adaptation.</p>
+</div>
+<div id="other-application-areas" class="section level3">
+<h3>4.4 Other Application Areas</h3>
+<ul>
+<li><p><strong>Event Prediction:</strong><br />
+Bayesian models such as those used in “Pachinko Prediction” forecast
+events (e.g., protests or social unrest) by aggregating social media
+signals and updating predictions dynamically.</p></li>
+<li><p><strong>Social Influence and Opinion Dynamics:</strong><br />
+By treating each individual’s opinion as a probability distribution that
+is updated via Bayes’ rule, researchers model how opinions spread in
+social networks and how consensus emerges or misinformation can be
+mitigated.</p></li>
+<li><p><strong>Macroeconomic Forecasting:</strong><br />
+Bayesian vector autoregression (BVAR) models employ shrinkage priors to
+handle the high number of parameters typical in macroeconomic datasets,
+improving forecast stability and accuracy.</p></li>
+<li><p><strong>Clinical Trials and Experimental Design:</strong><br />
+Bayesian optimal design techniques guide adaptive clinical trials,
+ensuring efficient resource allocation and enhanced patient safety by
+maximizing information gain.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>5. Conclusion</h2>
+<p>Bayesian models provide a flexible and robust framework for analyzing
+social media data and beyond. This article introduced the fundamental
+concepts behind Bayesian inference, derived the posterior distribution
+using Bayes’ theorem, and illustrated a practical example with Bayesian
+logistic regression for sentiment analysis. We also discussed
+extensions—such as hierarchical modeling, multiple predictors, and
+dynamic updating—and highlighted further applications in event
+prediction, social influence modeling, macroeconomic forecasting, and
+clinical trial design.</p>
     <div style="display: flex; justify-content: space-between; margin-top: 20px;">
    <a href="index.html">← Back to Home</a>
    <a href="posts.html">Back to Posts →</a>
