@@ -186,7 +186,73 @@ plt.show()
 
 # 6. Summary statistics of the posterior
 print(az.summary(trace, round_to=2))</code></pre>
+
+     <h2>Detailed Explanation and Further Applications</h2>
+    <h3>1. Imports:</h3>
+    <ul>
+      <li><strong>numpy:</strong> for numerical operations.</li>
+      <li><strong>pymc3:</strong> for specifying and sampling from the Bayesian model.</li>
+      <li><strong>matplotlib</strong> and <strong>arviz:</strong> for visualization and diagnostics.</li>
+    </ul>
+
+    <h3>2. Data Simulation:</h3>
+    <ul>
+      <li>We generate \(N=100\) synthetic data points.</li>
+      <li>Predictor \(x\) is drawn from a standard normal distribution.</li>
+      <li>We calculate the true probability \(p_{\text{true}}\) using the logistic function with a true intercept of \(-1.0\) and slope of \(2.5\).</li>
+      <li>The binary outcome \(y\) is then generated from a binomial distribution.</li>
+    </ul>
+
+    <h3>3. Model Specification:</h3>
+    <ul>
+      <li>Within a PyMC3 model context, we define Normal priors for the intercept and slope.</li>
+      <li>The linear predictor is transformed to a probability using the sigmoid function.</li>
+      <li>The likelihood is defined using a Bernoulli distribution.</li>
+    </ul>
+
+    <h3>4. Sampling:</h3>
+    <ul>
+      <li>MCMC sampling (using NUTS) is performed to approximate the posterior distribution.</li>
+      <li>Tuning and a high target acceptance rate help ensure convergence.</li>
+    </ul>
+
+    <h3>5. Diagnostics:</h3>
+    <ul>
+      <li>Trace plots and histograms of the posterior samples are generated to visually assess convergence and distribution shapes.</li>
+    </ul>
+
+    <h3>6. Summary:</h3>
+    <ul>
+      <li>Posterior summaries provide means, standard deviations, and credible intervals for the model parameters.</li>
+    </ul>
+
+    <h2>4. Extending the Model and Further Applications</h2>
     
+    <h3>4.1 Hierarchical Modeling</h3>
+    <p>For real-world social media data, posts are often nested within users. A hierarchical model allows for user-specific random effects:</p>
+    <div class="code">
+      \[
+      \text{logit}(P(y_{ij}=1)) = \alpha_j + \beta \, x_{ij}, \quad \alpha_j \sim \mathcal{N}(\mu_\alpha, \sigma_\alpha^2).
+      \]
+    </div>
+    <p>This extension captures user-level differences in sentiment, "borrowing strength" across users to produce more robust estimates.</p>
+
+    <h3>4.2 Multiple Textual Features</h3>
+    <p>In practice, you might extract multiple predictors from text using methods such as TF-IDF, word embeddings, or topic modeling. A multivariate Bayesian logistic regression:</p>
+    <div class="code">
+      \[
+      \text{logit}(P(y_i=1)) = \alpha + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_k x_{ik},
+      \]
+    </div>
+    <p>can be used alongside regularizing priors (e.g., Laplace or Horseshoe) to handle high-dimensionality and select important features.</p>
+
+    <h3>4.3 Dynamic (Sequential) Updating</h3>
+    <p>Social media data stream in continuously. A dynamic Bayesian model can update its posterior distribution over time as new data arrive. One common approach is to use the posterior from the previous time window as the prior for the new data, enabling real-time model adaptation.</p>
+
+    <h3>4.4 Other Application Areas</h3>
+    <ul>
+      <li><strong>Event Prediction:</strong> Bayesian models such as those used in “Pachinko Prediction” forecast events (e.g., protests or social unrest) by aggregating social media signals and updating predictions dynamically.</li>
+      <li><strong>Social Influence and Opinion Dynamics:</strong> By treating each individual
     <h2>Conclusion</h2>
     <p>Bayesian models provide a flexible and robust framework for analyzing social media data and beyond. This article introduced the fundamental concepts behind Bayesian inference, derived the posterior distribution using Bayes’ theorem, and illustrated a practical example with Bayesian logistic regression for sentiment analysis.</p>
     <p>By combining prior knowledge with new data, Bayesian inference not only delivers point estimates but also a full characterization of uncertainty, making it an essential tool for modern data analytics in rapidly changing environments.</p>
