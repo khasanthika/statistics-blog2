@@ -226,9 +226,9 @@ print(az.summary(trace, round_to=2))</code></pre>
       <li>Posterior summaries provide means, standard deviations, and credible intervals for the model parameters.</li>
     </ul>
 
-    <h3>4. Extending the Model and Further Applications</h3>
+    <h2>Extending the Model and Further Applications</h2>
     
-    <h3>4.1 Hierarchical Modeling</h3>
+    <h3>1 Hierarchical Modeling</h3>
     <p>For real-world social media data, posts are often nested within users. A hierarchical model allows for user-specific random effects:</p>
     <div class="code">
       \[
@@ -237,7 +237,7 @@ print(az.summary(trace, round_to=2))</code></pre>
     </div>
     <p>This extension captures user-level differences in sentiment, "borrowing strength" across users to produce more robust estimates.</p>
 
-    <h3>4.2 Multiple Textual Features</h3>
+    <h3>2 Multiple Textual Features</h3>
     <p>In practice, you might extract multiple predictors from text using methods such as TF-IDF, word embeddings, or topic modeling. A multivariate Bayesian logistic regression:</p>
     <div class="code">
       \[
@@ -246,10 +246,10 @@ print(az.summary(trace, round_to=2))</code></pre>
     </div>
     <p>can be used alongside regularizing priors (e.g., Laplace or Horseshoe) to handle high-dimensionality and select important features.</p>
 
-    <h3>4.3 Dynamic (Sequential) Updating</h3>
+    <h3>3 Dynamic (Sequential) Updating</h3>
     <p>Social media data stream in continuously. A dynamic Bayesian model can update its posterior distribution over time as new data arrive. One common approach is to use the posterior from the previous time window as the prior for the new data, enabling real-time model adaptation.</p>
 
-    <h3>4.4 Other Application Areas</h3>
+    <h3>4 Other Application Areas</h3>
     <ul>
       <li><strong>Event Prediction:</strong> Bayesian models such as those used in “Pachinko Prediction” forecast events (e.g., protests or social unrest) by aggregating social media signals and updating predictions dynamically.</li>
       <li><strong>Social Influence and Opinion Dynamics:</strong> By treating each individual’s opinion as a probability distribution that is updated via Bayes’ rule, researchers model how opinions spread in social networks and how consensus emerges or misinformation can be mitigated.</li>
