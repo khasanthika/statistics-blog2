@@ -88,7 +88,7 @@
     </nav>
   </header>
   <div class="container">
-    <h2>Understanding Bayesian Inference & Applications in Social Media Analytics</h2>
+    <h1>Understanding Bayesian Inference & Applications in Social Media Analytics</h1>
     <p>Bayesian inference is a statistical framework that updates beliefs about uncertain quantities as new data become available. It is based on <strong>Bayes’ theorem</strong>, formulated by the Reverend <strong>Thomas Bayes</strong> in the 18th century and later formalized by <strong>Pierre-Simon Laplace</strong>. Unlike frequentist methods, which rely on fixed parameters and long-run frequencies, Bayesian inference treats parameters as probability distributions, allowing for a natural way to incorporate prior knowledge and quantify uncertainty.</p>
     <p>Despite its early development, Bayesian methods remained computationally challenging until the advent of <strong>Markov Chain Monte Carlo (MCMC)</strong> techniques in the 20th century, which made complex Bayesian models practical. Today, Bayesian inference is widely applied across fields such as machine learning, economics, medicine, and social sciences, offering a powerful framework for decision-making under uncertainty.</p>
     
@@ -121,33 +121,45 @@
     <p>where \(x\) is a predictor (such as a sentiment score), \(\alpha\) is the intercept, and \(\beta\) is the slope.</p>
     
     <h3>Python Example Using PyMC3</h3>
-    <pre><code>
-import numpy as np
+    <pre class="python"><code>import numpy as np
 import pymc3 as pm
 import matplotlib.pyplot as plt
 import arviz as az
 
-# Simulate synthetic data
+# 1. Set seed for reproducibility
+np.random.seed(42)
+
+# 2. Simulate synthetic data
 N = 100  # number of social media posts
-x = np.random.normal(0, 1, size=N)  # feature (e.g., sentiment score)
+x = np.random.normal(0, 1, size=N)  # a feature (e.g., sentiment score)
+
+# True model parameters (for simulation)
 true_intercept = -1.0
 true_slope = 2.5
 logit_p = true_intercept + true_slope * x
 p_true = 1 / (1 + np.exp(-logit_p))
-y = np.random.binomial(1, p_true, size=N)
+y = np.random.binomial(1, p_true, size=N)  # binary sentiment outcome
 
-# Bayesian logistic regression model using PyMC3
+# 3. Build Bayesian logistic regression model using PyMC3
 with pm.Model() as model:
-    intercept = pm.Normal('intercept', mu=0, sigma=10)
-    slope = pm.Normal('slope', mu=0, sigma=10)
+    # Priors for the intercept and slope
+    intercept = pm.Normal(&#39;intercept&#39;, mu=0, sigma=10)
+    slope = pm.Normal(&#39;slope&#39;, mu=0, sigma=10)
+    
+    # Logistic model likelihood
     p = pm.math.sigmoid(intercept + slope * x)
-    likelihood = pm.Bernoulli('y', p=p, observed=y)
+    likelihood = pm.Bernoulli(&#39;y&#39;, p=p, observed=y)
+    
+    # 4. Sample from the posterior
     trace = pm.sample(2000, tune=1000, target_accept=0.95, return_inferencedata=True)
 
-# Plot posterior distributions
+# 5. Plot the posterior distributions of the parameters
 az.plot_trace(trace)
+plt.tight_layout()
 plt.show()
-    </code></pre>
+
+# 6. Summary statistics of the posterior
+print(az.summary(trace, round_to=2))</code></pre>
     
     <h2>Conclusion</h2>
     <p>Bayesian models provide a flexible and robust framework for analyzing social media data and beyond. This article introduced the fundamental concepts behind Bayesian inference, derived the posterior distribution using Bayes’ theorem, and illustrated a practical example with Bayesian logistic regression for sentiment analysis.</p>
