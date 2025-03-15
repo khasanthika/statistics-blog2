@@ -7,6 +7,8 @@
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <style>
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -87,7 +89,16 @@
     white-space: pre-wrap;       /* Wrap long lines to prevent overflow */
     border-radius: 5px;          /* Rounded corners */
   }
-  
+   pre {
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      padding: 15px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-radius: 5px;
+    }
   /* Optional: Styling for code inside the <pre> block */
   pre.python code {
     display: block;
@@ -137,7 +148,7 @@
     <p>where \(x\) is a predictor (such as a sentiment score), \(\alpha\) is the intercept, and \(\beta\) is the slope.</p>
     
     <h3>Python Example Using PyMC3</h3>
-    <pre class="python"><code>
+    <pre class="python"><code class="language-python">
 import numpy as np
 import pymc3 as pm
 import matplotlib.pyplot as plt
