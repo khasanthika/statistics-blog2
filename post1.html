@@ -77,6 +77,22 @@
     footer .social-icons a:hover {
       color: #007acc;
     }
+    pre.python {
+    background-color: #f5f5f5;  /* Light gray background */
+    border: 1px solid #ccc;     /* Light gray border */
+    padding: 15px;               /* Padding around the code */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    font-size: 14px;             /* Slightly larger font for readability */
+    overflow-x: auto;            /* Horizontal scroll for long lines */
+    white-space: pre-wrap;       /* Wrap long lines to prevent overflow */
+    border-radius: 5px;          /* Rounded corners */
+  }
+  
+  /* Optional: Styling for code inside the <pre> block */
+  pre.python code {
+    display: block;
+    color: #333;  /* Dark text color */
+  }
   </style>
 </head>
 <body>
@@ -121,7 +137,8 @@
     <p>where \(x\) is a predictor (such as a sentiment score), \(\alpha\) is the intercept, and \(\beta\) is the slope.</p>
     
     <h3>Python Example Using PyMC3</h3>
-    <pre class="python"><code>import numpy as np
+    <pre class="python"><code>
+      import numpy as np
 import pymc3 as pm
 import matplotlib.pyplot as plt
 import arviz as az
