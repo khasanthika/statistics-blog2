@@ -131,7 +131,7 @@
 <p>Bayesian inference offers a flexible framework to update beliefs with
 new information. In this article, we illustrate the application of
 Bayesian logistic regression to model sentiment from simulated social
-media data. Using Python and the PyMC3 package, we simulate a dataset,
+media data. Using Python and the PyMC package, we simulate a dataset,
 fit the model, and visualize the posterior distributions of the
 parameters. This article will introduce <strong>Bayesian models</strong>,
 explaining their development based on Bayes’ theorem. We will then
@@ -151,7 +151,7 @@ interpretation to model parameters. Here, we focus on Bayesian logistic
 regression to examine the probability of a post having positive
 sentiment based on key predictors such as the sentiment polarity score
 and the length of the post. This article provides both a theoretical
-background and practical code examples in Python.</p>
+background and practical code example in Python.</p>
 <hr />
 </div>
 
@@ -178,7 +178,7 @@ uncertainty.</p>
     <p>\[
     p(\theta \mid D) = \frac{p(D \mid \theta) \, p(\theta)}{p(D)} \quad \text{where} \quad p(D) = \int p(D \mid \theta) \, p(\theta) \, d\theta.
     \]</p>
-    <p>This posterior distribution provides a complete summary of our updated beliefs, capturing not just point estimates but also the uncertainty about \(\theta\). The beauty of the Bayesian approach is that it naturally supports sequential learning—allowing us to update our beliefs as new data arrives—and offers a principled way to quantify uncertainty in predictions.</p>
+    <p>This posterior distribution provides a complete summary of our updated beliefs, capturing not just point estimates but also the uncertainty about \(\theta\). The beauty of the Bayesian approach is that it naturally supports sequential learning, allowing us to update our beliefs as new data arrives and offers a principled way to quantify uncertainty in predictions.</p>
     
 <hr />
 <div id="mathematical-foundations-of-bayesian-inference" class="section level2">
@@ -201,7 +201,7 @@ p(\theta \mid D) \;=\; \frac{p(D \mid \theta) \, p(\theta)}{p(D)}.
 </div>
 <div id="derivation-of-the-posterior-distribution" class="section level3">
 <h3>1.2 Derivation of the Posterior Distribution</h3>
-<p>Starting with the joint probability of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(D\)</span>:</p>
+<p>Starting with the joint probability distirbution of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(D\)</span>, we know that:</p>
 <p><span class="math display">\[
 p(\theta, D) \;=\; p(\theta) \, p(D \mid \theta) \quad \text{and} \quad
 p(\theta, D) \;=\; p(D) \, p(\theta \mid D),
@@ -238,13 +238,13 @@ logistic regression model is:</p>
 <p><span class="math display">\[
 \text{logit}(P(y=1 \mid x, \theta)) \;=\; \alpha + \beta \, x,
 \]</span></p>
-<p>with: - <span class="math inline">\(x\)</span>: A predictor (such as
-a sentiment score), - <span class="math inline">\(\alpha\)</span>:
-Intercept, - <span class="math inline">\(\beta\)</span>: Slope, - <span class="math inline">\(\theta = \{\alpha, \beta\}\)</span>.</p>
+<p>with: <span class="math inline">\(x\)</span>- A predictor (such as
+a sentiment score), <span class="math inline">\(\alpha\)</span>-
+Intercept, <span class="math inline">\(\beta\)</span>- Slope, <span class="math inline">\(\theta = \{\alpha, \beta\}\)</span>.</p>
 </div>
 <div id="priors-and-likelihood" class="section level3">
 <h3>2.2 Priors and Likelihood</h3>
-<p>We assume weakly informative Normal priors: <span class="math display">\[
+<p>We assume weakly informative Normal priors on the parameters: <span class="math display">\[
 \alpha \sim \mathcal{N}(0, 10^2), \quad \beta \sim \mathcal{N}(0, 10^2).
 \]</span></p>
 <p>The likelihood for an individual observation <span class="math inline">\((x_i, y_i)\)</span> is:</p>
@@ -399,7 +399,7 @@ main()</code></pre>
 <ul>
 <li><code>numpy</code> for numerical operations.<br />
 </li>
-<li><code>pymc3</code> for specifying and sampling from the Bayesian
+<li><code>pymc</code> for specifying and sampling from the Bayesian
 model.<br />
 </li>
 <li><code>matplotlib</code> and <code>arviz</code> for visualization and
@@ -421,7 +421,7 @@ generated from a binomial distribution.</li>
 </ul></li>
 <li><strong>Model Specification:</strong>
 <ul>
-<li>Within a PyMC3 model context, we define Normal priors for the
+<li>Within a PyMC model context, we define Normal priors for the
 intercept and slope.<br />
 </li>
 <li>The linear predictor is transformed to a probability using the
@@ -490,7 +490,7 @@ a valuable asset in social media analytics.</p>
 <p>This article illustrated how Bayesian inference can be applied to
 social media sentiment analysis through Bayesian logistic regression
 using Python. We demonstrated the process from data simulation to model
-fitting and posterior analysis with PyMC3. Bayesian approaches not only
+fitting and posterior analysis with PyMC. Bayesian approaches not only
 yield interpretable results through credible intervals but also allow
 for the integration of prior knowledge and the potential for more
 complex model extensions, providing powerful tools for researchers and
