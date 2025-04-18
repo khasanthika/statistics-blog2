@@ -15,7 +15,17 @@
 
   <!-- Prism.js R language support -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+
+
+
   
+  <!-- Prism Okaidia Theme (base dark theme) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+
+  <!-- Optional: Line numbers plugin -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
   <style>
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -104,6 +114,71 @@ footer .social-icons a:hover {
     /* Remove Prism.js background color for code */
     code[class*="language-"] {
       background-color: transparent !important;
+    }
+
+
+
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+      color: #008000; /* green */
+    }
+
+    .token.punctuation {
+      color: #999;
+    }
+
+    .token.property,
+    .token.tag,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+      color: #a626a4; /* purple-ish */
+    }
+
+    .token.boolean,
+    .token.number {
+      color: #0184bc; /* blue */
+    }
+
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+      color: #50a14f; /* green */
+    }
+
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+      color: #000;
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+      color: #e45649; /* reddish */
+    }
+
+    .token.function,
+    .token.class-name {
+      color: #4078f2; /* bright blue */
+    }
+
+    /* Light grey background for code blocks */
+    pre[class*="language-"] {
+      background: #f4f4f4;
+    }
+
+    /* Make default font color dark grey */
+    code[class*="language-"],
+    pre[class*="language-"] {
+      color: #333 !important;
     }
   </style>
 </head>
@@ -206,11 +281,11 @@ is available in R via the <strong>mlbench</strong> package.</p>
 to load the dataset, partition the data into training and test sets, fit
 the logistic regression model, and evaluate its performance using both
 model summary statistics and an ROC curve.</p>
-<pre><code class="language-r"># Load necessary libraries
+ <pre class="line-numbers"><code class="language-r"># Load necessary libraries
 library(mlbench)    # Contains the PimaIndiansDiabetes dataset
 library(caret)      # For data partitioning and evaluation
 library(ROCR)       # For ROC curve plotting</code></pre>
-<pre><code class="language-r"># Load the dataset
+ <pre class="line-numbers"><code class="language-r"># Load the dataset
 data(PimaIndiansDiabetes)
 dataset &lt;- PimaIndiansDiabetes
 
@@ -241,7 +316,7 @@ str(dataset)</code></pre>
 ##  Mean   : 79.8   Mean   :31.99   Mean   :0.4719   Mean   :33.24            
 ##  3rd Qu.:127.2   3rd Qu.:36.60   3rd Qu.:0.6262   3rd Qu.:41.00            
 ##  Max.   :846.0   Max.   :67.10   Max.   :2.4200   Max.   :81.00</code></pre>
-<pre><code class="language-r"># Partition the dataset into training (75%) and testing (25%) sets
+ <pre class="line-numbers"><code class="language-r"># Partition the dataset into training (75%) and testing (25%) sets
 set.seed(123)
 train_index &lt;- createDataPartition(dataset$diabetes, p = 0.75, list = FALSE)
 train_data &lt;- dataset[train_index, ]
