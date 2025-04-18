@@ -301,7 +301,7 @@ str(dataset)</code></pre>
 ##  $ pedigree: num  0.627 0.351 0.672 0.167 2.288 ...
 ##  $ age     : num  50 31 32 21 33 30 26 29 53 54 ...
 ##  $ diabetes: Factor w/ 2 levels &quot;neg&quot;,&quot;pos&quot;: 2 1 2 1 2 1 2 1 2 2 ...</code></pre>
-<pre><code class="language-r">summary(dataset)</code></pre>
+<pre class="line-numbers"><code class="language-r">>summary(dataset)</code></pre>
 <pre><code>##     pregnant         glucose         pressure         triceps     
 ##  Min.   : 0.000   Min.   :  0.0   Min.   :  0.00   Min.   : 0.00  
 ##  1st Qu.: 1.000   1st Qu.: 99.0   1st Qu.: 62.00   1st Qu.: 0.00  
@@ -356,7 +356,7 @@ summary(model)</code></pre>
 ## AIC: 563.5
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
-<pre><code class="language-r"># Make predictions on the test set: obtain probabilities
+<pre class="line-numbers"><code class="language-r"># Make predictions on the test set: obtain probabilities
 probabilities &lt;- predict(model, newdata = test_data, type = &quot;response&quot;)
 
 # Convert probabilities into binary predictions (threshold = 0.5)
