@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <title>Exploring Logistic Regression: A Case Study in Medical Diagnosis</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+ <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+ <!-- Prism.js CSS for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  
+  <!-- Prism.js JavaScript for syntax highlighting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+  <!-- Prism.js Python language support -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  
   <style>
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -77,6 +89,22 @@ footer .social-icons a {
 footer .social-icons a:hover {
   color: #007acc;
 }
+     /* Custom styling for the code block */
+    pre {
+      background-color: #f5f5f5 !important; /* Light gray background */
+      border: 1px solid #ccc;
+      padding: 15px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-radius: 5px;
+    }
+
+    /* Remove Prism.js background color for code */
+    code[class*="language-"] {
+      background-color: transparent !important;
+    }
   </style>
 </head>
 <body>
